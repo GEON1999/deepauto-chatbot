@@ -1,0 +1,44 @@
+# Next.js
+/nextjs/.next/
+/nextjs/out/
+/nextjs/node_modules/
+/nextjs/.npm
+/nextjs/.env
+/nextjs/.env.*
+/nextjs/npm-debug.log*
+/nextjs/yarn-debug.log*
+/nextjs/yarn-error.log*
+/nextjs/.vercel
+
+# Python / FastAPI
+/server/__pycache__/
+/server/*/__pycache__/
+/server/*/*/__pycache__/
+/server/*/*/*/__pycache__/
+/server/*/*/*/*/__pycache__/
+/server/venv/
+/server/.venv/
+/server/env/
+/server/.env
+/server/.env.*
+/server/*.pyc
+/server/*.pyo
+/server/*.pyd
+/server/.Python
+/server/.coverage
+/server/.pytest_cache/
+/server/htmlcov/
+/server/.tox/
+/server/.nox/
+/server/instance/
+/server/.webassets-cache
+/server/build/
+/server/dist/
+
+# Editor directories and files
+.vscode/*
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
