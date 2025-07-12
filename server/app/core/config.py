@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional, Dict, Any
 
 
 class Settings(BaseSettings):
@@ -12,7 +12,24 @@ class Settings(BaseSettings):
         "http://localhost:8000",  # FastAPI 서버
     ]
     
-    # 추후 DB 설정, 인증 설정 등이 필요할 경우 여기에 추가
+    # 데이터베이스 설정
+    MYSQL_SERVER: str = "localhost"  # 기본값: 로컬 개발용
+    MYSQL_USER: str
+    MYSQL_PASSWORD: str
+    MYSQL_DB: str
+    MYSQL_PORT: str = "3306"  # 기본값
+    AWS_REGION: str = "ap-northeast-2"  # 기본값: 서울 리전
+    
+    # SQLAlchemy
+    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    
+    @property
+    def get_database_url(self) -> str:
+        """데이터베이스 URL 생성"""
+        if self.SQLALCHEMY_DATABASE_URI:
+            return self.SQLALCHEMY_DATABASE_URI
+        
+        return f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_SERVER}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
     
     class Config:
         env_file = ".env"
