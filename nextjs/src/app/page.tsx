@@ -1,11 +1,27 @@
-import { Button, Input, Loading } from '@/components/ui';
+'use client';
+
+import { ChatLayout } from '@/components/chat';
+
+// Demo message handler - simulates chatbot responses
+const handleSendMessage = async (
+  message: string,
+  sessionId: string
+): Promise<string> => {
+  // Simulate API delay
+  await new Promise(resolve =>
+    setTimeout(resolve, 1000 + Math.random() * 1000)
+  );
+
+  // Simple response logic for demo
+  const responses = [`message: ${message}`];
+
+  return responses[Math.floor(Math.random() * responses.length)];
+};
 
 export default function Home() {
   return (
-    <div className="container mx-auto">
-      <Button variant="primary">Default</Button>
-      <Input label="기본 입력 필드" placeholder="텍스트 입력" />
-      <Loading size="sm" text="작게" />
+    <div className="h-screen bg-neutral-900">
+      <ChatLayout onSendMessage={handleSendMessage} className="h-full" />
     </div>
   );
 }
