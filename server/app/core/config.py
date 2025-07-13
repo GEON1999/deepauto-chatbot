@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     MYSQL_PORT: str = "3306"  # 기본값
     AWS_REGION: str = "ap-northeast-2"  # 기본값: 서울 리전
     
+    # DeepAuto API 설정
+    DEEPAUTO_API_KEY: str  # .env 파일에서 로드
+    DEEPAUTO_BASE_URL: str = "https://api.deepauto.ai/openai/v1"
+    
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI: Optional[str] = None
     

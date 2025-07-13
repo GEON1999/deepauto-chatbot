@@ -40,6 +40,22 @@ class MessageCRUD:
             print(f"Error getting messages by session: {e}")
             return []
     
+    def update_message_content(self, db: Session, message_id: int, content: str) -> Optional[Message]:
+        """ 메시지 내용을 업데이트합니다. """
+        try:
+            db_message = db.query(Message).filter(Message.id == message_id).first()
+            if not db_message:
+                return None
+            
+            db_message.content = content
+            db.commit()
+            db.refresh(db_message)
+            return db_message
+        except SQLAlchemyError as e:
+            db.rollback()
+            print(f"Error updating message content: {e}")
+            return None
+    
     def update_message_metadata(self, db: Session, message_id: int, tokens_used: Optional[int] = None, 
                                processing_time: Optional[int] = None) -> Optional[Message]:
         """ 메시지 메타데이터(토큰 사용량, 처리 시간)를 업데이트합니다. """
