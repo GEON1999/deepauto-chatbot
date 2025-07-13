@@ -30,7 +30,6 @@ class Message(MessageBase):
 class ChatSessionBase(BaseModel):
     """채팅 세션 기본 스키마"""
     title: Optional[str] = None
-    user_id: str
 
 
 class ChatSessionCreate(ChatSessionBase):
