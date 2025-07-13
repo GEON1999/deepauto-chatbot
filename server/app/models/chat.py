@@ -13,7 +13,6 @@ class ChatSession(Base, TimestampMixin):
     id = Column(Integer, primary_key=True, index=True)
     session_id = Column(String(36), unique=True, index=True, default=lambda: str(uuid.uuid4()))
     title = Column(String(255), nullable=True)
-    user_id = Column(String(255), index=True)  # 사용자 식별자
     is_active = Column(Boolean, default=True)
 
     # 관계 설정: 하나의 세션에 여러 메시지가 포함됨
