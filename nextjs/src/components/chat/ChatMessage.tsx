@@ -2,6 +2,13 @@
 
 import React from 'react';
 
+// Helper function to adjust time by adding 9 hours
+const adjustTimeForKST = (timestamp: Date): Date => {
+  const adjustedTime = new Date(timestamp);
+  adjustedTime.setHours(adjustedTime.getHours() + 9);
+  return adjustedTime;
+};
+
 export interface ChatMessageProps {
   message: string;
   isUser: boolean;
@@ -28,7 +35,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             isUser ? 'text-gray-100' : 'text-neutral-400'
           }`}
         >
-          {timestamp.toLocaleTimeString([], {
+          {adjustTimeForKST(timestamp).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
           })}

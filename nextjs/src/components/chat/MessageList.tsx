@@ -15,7 +15,10 @@ export interface MessageListProps {
   isLoading?: boolean;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages, isLoading = false }) => {
+const MessageList: React.FC<MessageListProps> = ({
+  messages,
+  isLoading = false,
+}) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto scroll to bottom when new messages arrive
@@ -25,15 +28,17 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading = false }
     }
   }, [messages]);
 
+  console.log(messages);
+
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-2">
+    <div className="flex-1 overflow-y-auto p-4 space-y-2 max-h-[84vh]">
       {messages.length === 0 ? (
         <div className="flex items-center justify-center h-full text-neutral-400">
           <p>대화를 시작해보세요!</p>
         </div>
       ) : (
         <>
-          {messages.map((msg) => (
+          {messages.map(msg => (
             <ChatMessage
               key={msg.id}
               message={msg.message}
@@ -47,8 +52,14 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading = false }
                 <div className="flex items-center space-x-2">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-neutral-400 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-neutral-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="w-2 h-2 bg-neutral-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                    <div
+                      className="w-2 h-2 bg-neutral-400 rounded-full animate-pulse"
+                      style={{ animationDelay: '0.2s' }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-neutral-400 rounded-full animate-pulse"
+                      style={{ animationDelay: '0.4s' }}
+                    ></div>
                   </div>
                   <span className="text-sm text-neutral-400">입력 중...</span>
                 </div>

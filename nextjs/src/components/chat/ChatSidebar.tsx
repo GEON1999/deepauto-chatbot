@@ -3,6 +3,13 @@
 import React from 'react';
 import { Button } from '@/components/ui';
 
+// Helper function to adjust time by adding 9 hours
+const adjustTimeForKST = (timestamp: Date): Date => {
+  const adjustedTime = new Date(timestamp);
+  adjustedTime.setHours(adjustedTime.getHours() + 9);
+  return adjustedTime;
+};
+
 export interface ChatSession {
   id: string;
   title: string;
@@ -16,6 +23,7 @@ export interface ChatSidebarProps {
   activeSessionId?: string;
   onSelectSession: (sessionId: string) => void;
   onNewChat: () => void;
+  onDeleteSession?: (sessionId: string) => void; // Added delete session handler
   isOpen: boolean;
   onToggle: () => void;
 }
@@ -25,6 +33,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
   activeSessionId,
   onSelectSession,
   onNewChat,
+  onDeleteSession,
   isOpen,
   onToggle,
 }) => {
@@ -41,10 +50,10 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
       {/* Sidebar */}
       <div
         className={`
-        fixed top-0 left-0 h-full bg-neutral-800 border-r border-neutral-700 z-50
+        absolute top-0 left-0 h-screen bg-neutral-800 border-r border-neutral-700 z-50
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        lg:relative lg:translate-x-0 lg:z-auto
+        lg:relative lg:translate-x-0 lg:z-auto lg:h-screen
         w-80 flex flex-col
       `}
       >
@@ -126,7 +135,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                           : 'text-neutral-400'
                       }`}
                     >
-                      {session.timestamp.toLocaleDateString([], {
+                      {adjustTimeForKST(session.timestamp).toLocaleDateString([], {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -149,24 +158,44 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
                     <span
                       className={`text-xs ${
                         activeSessionId === session.id
-                          ? 'text-gray-200'
-                          : 'text-neutral-500'
-                      }`}
-                    >
-                      {session.messageCount}개 메시지
-                    </span>
-                    <span
-                      className={`text-xs ${
-                        activeSessionId === session.id
                           ? 'text-gray-100'
                           : 'text-neutral-400'
                       }`}
                     >
-                      {session.timestamp.toLocaleTimeString([], {
+                      {adjustTimeForKST(session.timestamp).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
                       })}
                     </span>
+                    {onDeleteSession && (
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation(); // 버블링 방지
+                          onDeleteSession(session.id);
+                        }}
+                        className={`p-1 rounded-md hover:bg-red-500 ${
+                          activeSessionId === session.id
+                            ? 'text-gray-100'
+                            : 'text-neutral-400'
+                        }`}
+                        aria-label="채팅 삭제"
+                      >
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="h-4 w-4" 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" 
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
