@@ -11,7 +11,7 @@ from app.core.database import get_db
 from app.core.config import settings
 from app.services.chat_session_crud import ChatSessionCRUD
 from app.services.message_crud import MessageCRUD
-from app.schemas.chat import MessageCreate
+from app.schemas.chat import MessageCreate, ChatSessionUpdate
 
 router = APIRouter()
 chat_crud = ChatSessionCRUD()
@@ -32,6 +32,16 @@ async def create_chat_completion(
         chat_session = chat_crud.get_session_by_id(db, request.chat_id)
         if not chat_session:
             raise HTTPException(status_code=404, detail="Chat session not found")
+        
+        # 세션 제목 업데이트 (제목이 비어있는 경우에만)
+        if not chat_session.title or chat_session.title.strip() == "":
+            session_title = (
+                request.message[:30] + "..."
+                if len(request.message) > 30
+                else request.message
+            )
+            session_update_data = ChatSessionUpdate(title=session_title)
+            chat_crud.update_session(db, request.chat_id, session_update_data)
         
         # 사용자 메시지 저장
         user_message_data = MessageCreate(
