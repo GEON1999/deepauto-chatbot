@@ -122,7 +122,7 @@ pip list
 
 ```bash
 # 개발 서버 실행 (기본 포트: 8000)
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 #### 5. API 서버 확인
@@ -166,15 +166,6 @@ yarn dev
 # 기본 포트: 3000
 ```
 
-#### 4. 프로덕션 빌드
-
-```bash
-# 개발계 실행
-npm run dev
-# 또는
-yarn dev
-```
-
 ## 🔧 Development Workflow
 
 ### 1. 전체 시스템 실행 순서
@@ -183,7 +174,7 @@ yarn dev
 # 1. Backend 서버 실행 (터미널 1)
 cd server
 source venv/bin/activate  # 가상환경 활성화
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 
 # 2. Frontend 서버 실행 (터미널 2)
 cd nextjs
@@ -193,8 +184,8 @@ npm run dev
 ### 2. 접속 URL
 
 - **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8000`
-- **API 문서**: `http://localhost:8000/docs`
+- **Backend API**: `http://127.0.0.1:8000`
+- **API 문서**: `http://127.0.0.1:8000/docs`
 
 ## 📁 Project Structure
 
